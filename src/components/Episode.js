@@ -17,4 +17,4 @@ const Episode = (props)=> {
     </div>)
 }
 
-export default Episode;
+export default Episode; 

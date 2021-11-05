@@ -18,7 +18,7 @@ const Display = (props) => {
                 displayFunc();
             }
 
-        });
+        }); 
     }
         
     const handleSelect = e => {

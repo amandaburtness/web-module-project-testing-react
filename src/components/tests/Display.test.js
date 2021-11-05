@@ -1,17 +1,51 @@
+import React from 'react';
+import { render, screen, waitFor } from '@testing-library/react';
+import Display from '../Display'
+import userEvent from '@testing-library/user-event';
 
+const testEpisode = {
+  name: 'Super Rad Episode',
+  summary: 'The episode was really rad.',
+  seasons: [{id: 0, name: "Season 1", episodes: [] }],
+}
 
+const displayFunc = (data)=> {
+  console.log(data);
+}
 
+test("renders without error or props", () => {
+  render(<Display />)
+});
 
+test("when the fetch button is pressed, the show component will display", () => {
+  render(<Display displayFunc={displayFunc} />)
 
+  const show = screen.queryByTestId('show-container')
+  waitFor(() => expect(show).toBeInTheDocument())
 
+  const button = screen.getByRole('button')
+  userEvent.click(button)
+}) 
 
+test("when the fetch button is pressed, the amount of select options rendered is equal to the amount of seasons in test data", () => {
+  render(<Display displayFunc={displayFunc} />)
 
+  const button = screen.getByRole('button')
+  userEvent.click(button)
 
+  waitFor(() => expect(screen.queryByTestId('season-option')).toHaveLength(testEpisode.seasons.length))
+})
 
+test("when the fetch button is pressed, this function is called", () => {
+  const mockClick = jest.fn()
 
+  render(<Display handleClick={mockClick} />)
 
+  const button = screen.getByRole('button')
+  userEvent.click(button)
 
-
+  waitFor(() => expect(mockClick).toHaveBeenCalledTimes(1))
+})
 
 ///Tasks:
 //1. Add in nessisary imports and values to establish the testing suite.
